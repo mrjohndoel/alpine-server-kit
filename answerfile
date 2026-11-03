@@ -1,0 +1,64 @@
+# =============================================================================
+#  answerfile — unattended Alpine Linux install for the home server
+# -----------------------------------------------------------------------------
+#  1. Edit the three CHANGE ME lines below (hostname, user + SSH key, disk).
+#  2. On your laptop, in the folder holding this file and alpine-docker-setup.sh:
+#        python3 -m http.server 8000
+#  3. Boot the server from the Alpine "Standard" (or "Extended") ISO, log in as
+#     root (no password on the live ISO), then:
+#        ip link set eth0 up && udhcpc -i eth0
+#        wget http://<laptop-ip>:8000/answerfile
+#        setup-alpine -f answerfile
+#     You will still be asked for the root and user passwords (never stored in
+#     a file) and to confirm erasing the disk. Then:  reboot  (remove the USB)
+#  4. From the laptop:
+#        scp alpine-docker-setup.sh <user>@<hostname>.local:      (or the IP)
+#        ssh <user>@<hostname>.local
+#        doas sh alpine-docker-setup.sh
+# =============================================================================
+
+KEYMAPOPTS="us us"
+
+# CHANGE ME — the server will be reachable as <this>.local on your LAN
+HOSTNAMEOPTS="homeserver"
+
+DEVDOPTS="mdev"
+
+# DHCP on the first wired NIC. For a fixed IP, replace the eth0 block with:
+#   auto eth0
+#   iface eth0 inet static
+#       address 192.168.1.50/24
+#       gateway 192.168.1.1
+# and uncomment DNSOPTS below.
+INTERFACESOPTS="auto lo
+iface lo inet loopback
+
+auto eth0
+iface eth0 inet dhcp
+"
+# DNSOPTS="-d lan 192.168.1.1 1.1.1.1"
+
+TIMEZONEOPTS="Asia/Dhaka"
+PROXYOPTS="none"
+
+# -1: fastest/first mirror   -c: enable the community repo (needed for Docker)
+APKREPOSOPTS="-1 -c"
+
+# CHANGE ME — your admin login. -a makes it an admin (wheel group + doas rule).
+USEROPTS="-a -u -g audio,video,netdev abir"
+
+# CHANGE ME — your public key, or a URL to one (GitHub serves yours at
+# https://github.com/<username>.keys). Use "none" to set it up later.
+# With a key here, the setup script turns off SSH password logins.
+USERSSHKEY="none"
+
+SSHDOPTS="openssh"
+ROOTSSHKEY="none"
+NTPOPTS="chrony"
+
+# CHANGE ME — target disk; it will be ERASED. Find it on the live ISO with:
+#   fdisk -l        (typical: /dev/sda, /dev/nvme0n1, /dev/vda)
+DISKOPTS="-m sys /dev/sda"
+
+LBUOPTS="none"
+APKCACHEOPTS="none"

@@ -1,0 +1,8 @@
+# Never commit secrets
+*.key
+*.pem
+id_*
+!id_*.pub
+.env
+*.bak.*
+.DS_Store
