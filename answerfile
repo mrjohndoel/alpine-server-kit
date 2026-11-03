@@ -20,7 +20,7 @@
 KEYMAPOPTS="us us"
 
 # CHANGE ME — the server will be reachable as <this>.local on your LAN
-HOSTNAMEOPTS="homeserver"
+HOSTNAMEOPTS="mfreak"
 
 DEVDOPTS="mdev"
 
