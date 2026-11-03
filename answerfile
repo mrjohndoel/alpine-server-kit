@@ -50,7 +50,7 @@ USEROPTS="-a -u -g audio,video,netdev abir"
 # CHANGE ME — your public key, or a URL to one (GitHub serves yours at
 # https://github.com/<username>.keys). Use "none" to set it up later.
 # With a key here, the setup script turns off SSH password logins.
-USERSSHKEY="none"
+USERSSHKEY="https://github.com/mrjohndoel.keys"
 
 SSHDOPTS="openssh"
 ROOTSSHKEY="none"
